@@ -17,7 +17,6 @@ import java.util.List;
 
 public class HotbarManager {
 
-
     public static HashMap<ItemStack, Integer> createItemsInInventory(Player player){
         HashMap<ItemStack, Integer> items = new HashMap<>();
         String pseudo = player.getName();
@@ -73,7 +72,7 @@ public class HotbarManager {
 
         ItemStack rush = new ItemStack(Material.BLUE_BED);
         ItemMeta metaRush = rush.getItemMeta();
-        metaRush.setDisplayName(ChatColor.RED + "Rush");
+        metaRush.setDisplayName(ChatColor.BLUE + "Rush");
         metaRush.setLore(List.of(ChatColor.GRAY + "bon jeu"));
         rush.setItemMeta(metaRush);
         inv.setItem(13, rush);
@@ -139,6 +138,35 @@ public class HotbarManager {
         player.getInventory().setItem(8, showingPlayers);
     }
 
-    public static void itemClick(Inventory inv, ItemStack item, Player player){
+    public static void itemClick(String title, ItemStack item, Player player){
+        String pseudo = player.getName();
+        if (title.equals("Jeux")){
+            itemClickGames(item, player);
+        } else if (title.equals("Shop")){
+            itemClickShop(item, player);
+        } else if (title.equals(pseudo)){
+            itemClickProfil(item, player);
+        } else if (title.equals("player")){
+            interactItems(item, player);
+        }
+    }
+
+    private static void itemClickGames(ItemStack item, Player player) {
+        if (item.getType() == Material.BLUE_BED){
+            player.sendMessage(ChatColor.GOLD + "Tu viens de rejoindre le" + ChatColor.BLUE + " Rush" + ChatColor.GOLD + " !");
+            player.closeInventory();
+        }
+    }
+
+    private static void itemClickShop(ItemStack item, Player player) {
+        if (item.getType() == Material.DIAMOND){
+            player.sendMessage(ChatColor.GOLD + "Tu viens d'acheter le" + ChatColor.AQUA + " VIP" + ChatColor.GOLD + " !");
+            player.closeInventory();
+        }
+    }
+
+    private static void itemClickProfil(ItemStack item, Player player) {
+        player.sendMessage(ChatColor.GOLD + "Tu viens de cliquer sur ton profil !");
+        player.closeInventory();
     }
 }

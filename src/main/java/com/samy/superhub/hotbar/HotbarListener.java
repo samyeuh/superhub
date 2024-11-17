@@ -1,6 +1,8 @@
 package com.samy.superhub.hotbar;
 
 import com.samy.superhub.HotbarManager;
+import com.samy.superhub.SuperHubPlugin;
+import com.samy.superhub.actionbar.ActionBarTask;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -14,6 +16,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.HashMap;
+import java.util.List;
 
 public class HotbarListener implements Listener {
 
@@ -42,7 +45,7 @@ public class HotbarListener implements Listener {
         ItemStack item = event.getItem();
         if (item == null) return;
 
-        if (action == Action.RIGHT_CLICK_AIR || action == Action.RIGHT_CLICK_BLOCK){
+        if (action == Action.RIGHT_CLICK_AIR || action == Action.RIGHT_CLICK_BLOCK || action == Action.LEFT_CLICK_AIR || action == Action.LEFT_CLICK_BLOCK){
             HotbarManager.interactItems(item, player);
         }
     }
@@ -52,7 +55,16 @@ public class HotbarListener implements Listener {
         Inventory inv = event.getInventory();
         Player player = (Player) event.getWhoClicked();
         ItemStack item = event.getCurrentItem();
+
         if (inv == null || item == null) return;
-        HotbarManager.itemClick(inv, item, player);
+        String inventoryName = event.getView().getTitle();
+        if (event.getClickedInventory().equals(player.getInventory())) {
+            inventoryName = "player";
+        }
+
+        event.setCancelled(true);
+
+        HotbarManager.itemClick(inventoryName, item, player);
+        player.setItemOnCursor(null);
     }
 }
