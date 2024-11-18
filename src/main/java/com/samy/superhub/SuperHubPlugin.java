@@ -1,5 +1,6 @@
 package com.samy.superhub;
 
+import com.samy.superhub.actionbar.ActionBarListener;
 import com.samy.superhub.hotbar.HotbarListener;
 import com.samy.superhub.spawn.SpawnCommand;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -10,6 +11,7 @@ public class SuperHubPlugin extends JavaPlugin {
     public void onEnable() {
         getCommand("spawn").setExecutor(new SpawnCommand());
         getServer().getPluginManager().registerEvents(new HotbarListener(), this);
+        getServer().getPluginManager().registerEvents(new ActionBarListener(this), this);
         getLogger().info("SuperHubPlugin est activé !");
     }
 
