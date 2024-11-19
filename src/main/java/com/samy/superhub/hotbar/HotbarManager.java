@@ -3,6 +3,7 @@ package com.samy.superhub;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -68,6 +69,7 @@ public class HotbarManager {
     }
 
     private static void interactCompass(Player player) {
+        player.playSound(player.getLocation(), Sound.ENTITY_FISH_SWIM, 2f, 2f);
         Inventory inv = Bukkit.createInventory(null, 54, "Jeux");
 
         ItemStack rush = new ItemStack(Material.BLUE_BED);
@@ -82,6 +84,7 @@ public class HotbarManager {
 
     private static void interactGoldIngot(Player player) {
         Inventory inv = Bukkit.createInventory(null, 54, "Shop");
+        player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 2f, 2f);
 
         ItemStack vip = new ItemStack(Material.DIAMOND);
         ItemMeta metaVip = vip.getItemMeta();
@@ -119,6 +122,8 @@ public class HotbarManager {
     private static void interactLimeDye(Player player) {
         ItemStack hidingPlayers = new ItemStack(Material.GRAY_DYE);
         ItemMeta metaHidingPlayers = hidingPlayers.getItemMeta();
+        player.playSound(player.getLocation(), Sound.BLOCK_BUBBLE_COLUMN_UPWARDS_AMBIENT, 2f, 2f);
+
         metaHidingPlayers.setDisplayName(ChatColor.GOLD + "Joueurs: " + ChatColor.RED + "masqués");
         metaHidingPlayers.setLore(Arrays.asList(ChatColor.GRAY + "pour afficher ou non les joueurs"));
         hidingPlayers.setItemMeta(metaHidingPlayers);
@@ -128,6 +133,8 @@ public class HotbarManager {
     }
 
     private static void interactGrayDye(Player player) {
+        player.playSound(player.getLocation(), Sound.ENTITY_FIREWORK_ROCKET_TWINKLE, 2f, 2f);
+
         ItemStack showingPlayers = new ItemStack(Material.LIME_DYE);
         ItemMeta metaPlayers = showingPlayers.getItemMeta();
         metaPlayers.setDisplayName(ChatColor.GOLD + "Joueurs: " + ChatColor.GREEN + "visibles");
@@ -143,6 +150,7 @@ public class HotbarManager {
         if (title.equals("Jeux")){
             itemClickGames(item, player);
         } else if (title.equals("Shop")){
+            player.playSound(player.getLocation(), Sound.BLOCK_AMETHYST_BLOCK_PLACE, 2f, 2f);
             itemClickShop(item, player);
         } else if (title.equals(pseudo)){
             itemClickProfil(item, player);
@@ -166,6 +174,9 @@ public class HotbarManager {
     }
 
     private static void itemClickProfil(ItemStack item, Player player) {
+        if (item.getType() == Material.LIGHT_BLUE_STAINED_GLASS_PANE){
+            return;
+        }
         player.sendMessage(ChatColor.GOLD + "Tu viens de cliquer sur ton profil !");
         player.closeInventory();
     }
