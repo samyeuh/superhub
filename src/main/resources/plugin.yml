@@ -7,5 +7,6 @@ author: Samy
 
 commands:
   spawn:
+    display: true
     description: Téléporte le joueur au spawn
     usage: /spawn
