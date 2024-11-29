@@ -3,6 +3,7 @@ package com.samy.superhub;
 import com.samy.superhub.actionbar.ActionBarListener;
 import com.samy.superhub.chat.ChatListener;
 import com.samy.superhub.hotbar.HotbarListener;
+import com.samy.superhub.interactions.InteractionsListener;
 import com.samy.superhub.spawn.SpawnCommand;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -14,6 +15,7 @@ public class SuperHubPlugin extends JavaPlugin {
         enableHotBar();
         enableActionBar();
         enableChat();
+        enableInteractions();
 
         getLogger().info("SuperHubPlugin est activé !");
     }
@@ -37,5 +39,9 @@ public class SuperHubPlugin extends JavaPlugin {
 
     private void enableChat(){
         getServer().getPluginManager().registerEvents(new ChatListener(), this);
+    }
+
+    private void enableInteractions(){
+        getServer().getPluginManager().registerEvents(new InteractionsListener(), this);
     }
 }
