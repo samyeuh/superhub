@@ -30,7 +30,7 @@ public class SuperHubPlugin extends JavaPlugin {
     }
 
     private void enableHotBar(){
-        getServer().getPluginManager().registerEvents(new HotbarListener(), this);
+        getServer().getPluginManager().registerEvents(new HotbarListener(this), this);
     }
 
     private void enableActionBar(){

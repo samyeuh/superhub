@@ -1,6 +1,7 @@
 package com.samy.superhub.hotbar;
 
-import com.samy.superhub.HotbarManager;
+import com.samy.superhub.hotbar.HotbarManager;
+import com.samy.superhub.SuperHubPlugin;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -15,6 +16,13 @@ import org.bukkit.inventory.ItemStack;
 import java.util.HashMap;
 
 public class HotbarListener implements Listener {
+
+    public final SuperHubPlugin plugin;
+
+    public HotbarListener(SuperHubPlugin plugin) {
+        this.plugin = plugin;
+    }
+
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
@@ -41,13 +49,12 @@ public class HotbarListener implements Listener {
         ItemStack item = event.getItem();
         if (item == null) return;
         if (action == Action.RIGHT_CLICK_AIR || action == Action.RIGHT_CLICK_BLOCK || action == Action.LEFT_CLICK_AIR || action == Action.LEFT_CLICK_BLOCK){
-            HotbarManager.interactItems(item, player);
+            HotbarManager.interactItems(item, player, plugin);
         }
     }
 
     @EventHandler
     public void onCLick(InventoryClickEvent event){
-        Inventory inv = event.getInventory();
         Player player = (Player) event.getWhoClicked();
         ItemStack item = event.getCurrentItem();
 
@@ -58,7 +65,7 @@ public class HotbarListener implements Listener {
         }
         event.setCancelled(true);
 
-        HotbarManager.itemClick(inventoryName, item, player);
+        HotbarManager.itemClick(inventoryName, item, player, plugin);
         player.setItemOnCursor(null);
     }
 

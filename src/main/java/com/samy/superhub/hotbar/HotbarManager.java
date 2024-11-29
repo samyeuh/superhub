@@ -1,5 +1,7 @@
-package com.samy.superhub;
+package com.samy.superhub.hotbar;
 
+import com.samy.superhub.SuperHubPlugin;
+import com.samy.superhub.hotbar.HidePlayersManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -54,7 +56,7 @@ public class HotbarManager {
         return items;
     }
 
-    public static void interactItems(ItemStack item, Player player){
+    public static void interactItems(ItemStack item, Player player, SuperHubPlugin plugin){
         if (item.getType() == Material.COMPASS){
             interactCompass(player);
         } else if (item.getType() == Material.GOLD_INGOT){
@@ -62,9 +64,9 @@ public class HotbarManager {
         } else if (item.getType() == Material.PLAYER_HEAD){
             interactPlayerHead(player);
         } else if (item.getType() == Material.LIME_DYE){
-            interactLimeDye(player);
+            interactLimeDye(player, plugin);
         } else if (item.getType() == Material.GRAY_DYE){
-            interactGrayDye(player);
+            interactGrayDye(player, plugin);
         }
     }
 
@@ -119,7 +121,7 @@ public class HotbarManager {
         player.openInventory(inv);
     }
 
-    private static void interactLimeDye(Player player) {
+    private static void interactLimeDye(Player player, SuperHubPlugin plugin) {
         ItemStack hidingPlayers = new ItemStack(Material.GRAY_DYE);
         ItemMeta metaHidingPlayers = hidingPlayers.getItemMeta();
         player.playSound(player.getLocation(), Sound.BLOCK_BUBBLE_COLUMN_UPWARDS_AMBIENT, 2f, 2f);
@@ -128,11 +130,11 @@ public class HotbarManager {
         metaHidingPlayers.setLore(Arrays.asList(ChatColor.GRAY + "pour afficher ou non les joueurs"));
         hidingPlayers.setItemMeta(metaHidingPlayers);
 
-        player.sendMessage(ChatColor.GOLD + "Tu viens de" + ChatColor.RED + " masquer" + ChatColor.GOLD + " les joueurs !");
+        HidePlayersManager.hidePlayers(plugin, player);
         player.getInventory().setItem(8, hidingPlayers);
     }
 
-    private static void interactGrayDye(Player player) {
+    private static void interactGrayDye(Player player, SuperHubPlugin plugin) {
         player.playSound(player.getLocation(), Sound.ENTITY_FIREWORK_ROCKET_TWINKLE, 2f, 2f);
 
         ItemStack showingPlayers = new ItemStack(Material.LIME_DYE);
@@ -141,11 +143,11 @@ public class HotbarManager {
         metaPlayers.setLore(Arrays.asList(ChatColor.GRAY + "pour afficher ou non les joueurs"));
         showingPlayers.setItemMeta(metaPlayers);
 
-        player.sendMessage(ChatColor.GOLD + "Tu viens d'" + ChatColor.GREEN + "afficher" + ChatColor.GOLD + " les joueurs !");
+        HidePlayersManager.showPlayers(plugin, player);
         player.getInventory().setItem(8, showingPlayers);
     }
 
-    public static void itemClick(String title, ItemStack item, Player player){
+    public static void itemClick(String title, ItemStack item, Player player, SuperHubPlugin plugin){
         String pseudo = player.getName();
         if (title.equals("Jeux")){
             itemClickGames(item, player);
@@ -155,7 +157,7 @@ public class HotbarManager {
         } else if (title.equals(pseudo)){
             itemClickProfil(item, player);
         } else if (title.equals("player")){
-            interactItems(item, player);
+            interactItems(item, player, plugin);
         }
     }
 
