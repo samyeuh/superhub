@@ -14,13 +14,21 @@ import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.profile.PlayerProfile;
 import org.checkerframework.checker.units.qual.A;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 public class HotbarManager {
 
-    public static HashMap<ItemStack, Integer> createItemsInInventory(Player player){
+    public static List<String> dyeLore = Arrays.asList(ChatColor.WHITE + "Tous les joueurs sont " + ChatColor.GREEN + "affichés",
+            ChatColor.WHITE + "Uniquement les joueurs avec qui vous êtes " + ChatColor.LIGHT_PURPLE + "amis" + ChatColor.WHITE + " sont " + ChatColor.GREEN + "affichés",
+            ChatColor.WHITE + "Tous les joueurs sont " + ChatColor.RED + " masqués");
+
+    public HidePlayersManager hidePlayersManager;
+
+    public HotbarManager(Map<UUID, List<UUID>> friends){
+        this.hidePlayersManager = new HidePlayersManager(friends);
+    }
+
+    public HashMap<ItemStack, Integer> createItemsInInventory(Player player){
         HashMap<ItemStack, Integer> items = new HashMap<>();
         String pseudo = player.getName();
 
@@ -49,14 +57,16 @@ public class HotbarManager {
         ItemStack showingPlayers = new ItemStack(Material.LIME_DYE);
         ItemMeta metaPlayers = showingPlayers.getItemMeta();
         metaPlayers.setDisplayName(ChatColor.GOLD + "Joueurs: " + ChatColor.GREEN + "visibles");
-        metaPlayers.setLore(Arrays.asList(ChatColor.GRAY + "pour afficher ou non les joueurs"));
+        List<String> dyeLoreCopy = new ArrayList<>(dyeLore);
+        dyeLoreCopy.set(0, " > " + ChatColor.BOLD + dyeLoreCopy.get(0));
+        metaPlayers.setLore(dyeLoreCopy);
         showingPlayers.setItemMeta(metaPlayers);
         items.put(showingPlayers, 8);
 
         return items;
     }
 
-    public static void interactItems(ItemStack item, Player player, SuperHubPlugin plugin){
+    public void interactItems(ItemStack item, Player player, SuperHubPlugin plugin){
         if (item.getType() == Material.COMPASS){
             interactCompass(player);
         } else if (item.getType() == Material.GOLD_INGOT){
@@ -67,10 +77,12 @@ public class HotbarManager {
             interactLimeDye(player, plugin);
         } else if (item.getType() == Material.GRAY_DYE){
             interactGrayDye(player, plugin);
+        } else if (item.getType() == Material.PINK_DYE){
+            interactPinkDye(player, plugin);
         }
     }
 
-    private static void interactCompass(Player player) {
+    private void interactCompass(Player player) {
         player.playSound(player.getLocation(), Sound.ENTITY_FISH_SWIM, 2f, 2f);
         Inventory inv = Bukkit.createInventory(null, 54, "Jeux");
 
@@ -84,7 +96,7 @@ public class HotbarManager {
         player.openInventory(inv);
     }
 
-    private static void interactGoldIngot(Player player) {
+    private void interactGoldIngot(Player player) {
         Inventory inv = Bukkit.createInventory(null, 54, "Shop");
         player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 2f, 2f);
 
@@ -98,7 +110,7 @@ public class HotbarManager {
         player.openInventory(inv);
     }
 
-    private static void interactPlayerHead(Player player) {
+    private void interactPlayerHead(Player player) {
         Inventory inv = Bukkit.createInventory(null, 54, player.getName());
 
         ItemStack playerHead = new ItemStack(Material.PLAYER_HEAD);
@@ -121,33 +133,51 @@ public class HotbarManager {
         player.openInventory(inv);
     }
 
-    private static void interactLimeDye(Player player, SuperHubPlugin plugin) {
+    private void interactLimeDye(Player player, SuperHubPlugin plugin) {
+        ItemStack friendsOnly = new ItemStack(Material.PINK_DYE);
+        ItemMeta metaFriendsOnly = friendsOnly.getItemMeta();
+
+        metaFriendsOnly.setDisplayName(ChatColor.GOLD + "Joueurs: " + ChatColor.LIGHT_PURPLE + "amis uniquement");
+        List<String> dyeLoreCopy = new ArrayList<>(dyeLore);
+        dyeLoreCopy.set(1, " > " + ChatColor.BOLD + dyeLoreCopy.get(1));
+        metaFriendsOnly.setLore(dyeLoreCopy);
+        friendsOnly.setItemMeta(metaFriendsOnly);
+
+        hidePlayersManager.showFriends(plugin, player);
+        player.getInventory().setItem(8, friendsOnly);
+    }
+
+    private void interactPinkDye(Player player, SuperHubPlugin plugin){
         ItemStack hidingPlayers = new ItemStack(Material.GRAY_DYE);
         ItemMeta metaHidingPlayers = hidingPlayers.getItemMeta();
         player.playSound(player.getLocation(), Sound.BLOCK_BUBBLE_COLUMN_UPWARDS_AMBIENT, 2f, 2f);
 
         metaHidingPlayers.setDisplayName(ChatColor.GOLD + "Joueurs: " + ChatColor.RED + "masqués");
-        metaHidingPlayers.setLore(Arrays.asList(ChatColor.GRAY + "pour afficher ou non les joueurs"));
+        List<String> dyeLoreCopy = new ArrayList<>(dyeLore);
+        dyeLoreCopy.set(2, " > " + ChatColor.BOLD + dyeLoreCopy.get(2));
+        metaHidingPlayers.setLore(dyeLoreCopy);
         hidingPlayers.setItemMeta(metaHidingPlayers);
 
-        HidePlayersManager.hidePlayers(plugin, player);
+        hidePlayersManager.hidePlayers(plugin, player);
         player.getInventory().setItem(8, hidingPlayers);
     }
 
-    private static void interactGrayDye(Player player, SuperHubPlugin plugin) {
+    private void interactGrayDye(Player player, SuperHubPlugin plugin) {
         player.playSound(player.getLocation(), Sound.ENTITY_FIREWORK_ROCKET_TWINKLE, 2f, 2f);
 
         ItemStack showingPlayers = new ItemStack(Material.LIME_DYE);
         ItemMeta metaPlayers = showingPlayers.getItemMeta();
         metaPlayers.setDisplayName(ChatColor.GOLD + "Joueurs: " + ChatColor.GREEN + "visibles");
-        metaPlayers.setLore(Arrays.asList(ChatColor.GRAY + "pour afficher ou non les joueurs"));
+        List<String> dyeLoreCopy = new ArrayList<>(dyeLore);
+        dyeLoreCopy.set(0, " > " + ChatColor.BOLD + dyeLoreCopy.get(0));
+        metaPlayers.setLore(dyeLoreCopy);
         showingPlayers.setItemMeta(metaPlayers);
 
-        HidePlayersManager.showPlayers(plugin, player);
+        hidePlayersManager.showPlayers(plugin, player);
         player.getInventory().setItem(8, showingPlayers);
     }
 
-    public static void itemClick(String title, ItemStack item, Player player, SuperHubPlugin plugin){
+    public void itemClick(String title, ItemStack item, Player player, SuperHubPlugin plugin){
         String pseudo = player.getName();
         if (title.equals("Jeux")){
             itemClickGames(item, player);
@@ -161,21 +191,21 @@ public class HotbarManager {
         }
     }
 
-    private static void itemClickGames(ItemStack item, Player player) {
+    private void itemClickGames(ItemStack item, Player player) {
         if (item.getType() == Material.BLUE_BED){
             player.sendMessage(ChatColor.GOLD + "Tu viens de rejoindre le" + ChatColor.BLUE + " Rush" + ChatColor.GOLD + " !");
             player.closeInventory();
         }
     }
 
-    private static void itemClickShop(ItemStack item, Player player) {
+    private void itemClickShop(ItemStack item, Player player) {
         if (item.getType() == Material.DIAMOND){
             player.sendMessage(ChatColor.GOLD + "Tu viens d'acheter le" + ChatColor.AQUA + " VIP" + ChatColor.GOLD + " !");
             player.closeInventory();
         }
     }
 
-    private static void itemClickProfil(ItemStack item, Player player) {
+    private void itemClickProfil(ItemStack item, Player player) {
         if (item.getType() == Material.LIGHT_BLUE_STAINED_GLASS_PANE){
             return;
         }

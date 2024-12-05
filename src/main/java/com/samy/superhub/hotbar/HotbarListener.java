@@ -14,13 +14,18 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 public class HotbarListener implements Listener {
 
     public final SuperHubPlugin plugin;
+    public final HotbarManager hotbarManager;
 
-    public HotbarListener(SuperHubPlugin plugin) {
+    public HotbarListener(SuperHubPlugin plugin, Map<UUID, List<UUID>> friendsMap) {
         this.plugin = plugin;
+        this.hotbarManager = new HotbarManager(friendsMap);
     }
 
 
@@ -34,7 +39,7 @@ public class HotbarListener implements Listener {
 
         player.getInventory().clear();
         player.getInventory().setHeldItemSlot(5);
-        HashMap<ItemStack, Integer> items = HotbarManager.createItemsInInventory(player);
+        HashMap<ItemStack, Integer> items = hotbarManager.createItemsInInventory(player);
         items.forEach((item, slot) -> player.getInventory().setItem(slot, item));
         player.updateInventory();
         player.getInventory().setHeldItemSlot(4);
@@ -44,17 +49,19 @@ public class HotbarListener implements Listener {
 
     @EventHandler
     public void onInteract(PlayerInteractEvent event){
+        plugin.refreshFriends();
         Player player = event.getPlayer();
         Action action = event.getAction();
         ItemStack item = event.getItem();
         if (item == null) return;
         if (action == Action.RIGHT_CLICK_AIR || action == Action.RIGHT_CLICK_BLOCK || action == Action.LEFT_CLICK_AIR || action == Action.LEFT_CLICK_BLOCK){
-            HotbarManager.interactItems(item, player, plugin);
+            hotbarManager.interactItems(item, player, plugin);
         }
     }
 
     @EventHandler
     public void onCLick(InventoryClickEvent event){
+        plugin.refreshFriends();
         Player player = (Player) event.getWhoClicked();
         ItemStack item = event.getCurrentItem();
 
@@ -65,7 +72,7 @@ public class HotbarListener implements Listener {
         }
         event.setCancelled(true);
 
-        HotbarManager.itemClick(inventoryName, item, player, plugin);
+        hotbarManager.itemClick(inventoryName, item, player, plugin);
         player.setItemOnCursor(null);
     }
 
