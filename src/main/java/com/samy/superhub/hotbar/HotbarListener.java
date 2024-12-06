@@ -1,6 +1,5 @@
 package com.samy.superhub.hotbar;
 
-import com.samy.superhub.hotbar.HotbarManager;
 import com.samy.superhub.SuperHubPlugin;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -10,13 +9,9 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.*;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 public class HotbarListener implements Listener {
 
@@ -25,7 +20,7 @@ public class HotbarListener implements Listener {
 
     public HotbarListener(SuperHubPlugin plugin, Map<UUID, List<UUID>> friendsMap) {
         this.plugin = plugin;
-        this.hotbarManager = new HotbarManager(friendsMap);
+        this.hotbarManager = new HotbarManager(friendsMap, plugin);
     }
 
 
@@ -41,7 +36,6 @@ public class HotbarListener implements Listener {
         player.getInventory().setHeldItemSlot(5);
         HashMap<ItemStack, Integer> items = hotbarManager.createItemsInInventory(player);
         items.forEach((item, slot) -> player.getInventory().setItem(slot, item));
-        player.updateInventory();
         player.getInventory().setHeldItemSlot(4);
         player.sendMessage(ChatColor.GREEN + "Bienvenue sur le serveur !");
 
@@ -55,7 +49,7 @@ public class HotbarListener implements Listener {
         ItemStack item = event.getItem();
         if (item == null) return;
         if (action == Action.RIGHT_CLICK_AIR || action == Action.RIGHT_CLICK_BLOCK || action == Action.LEFT_CLICK_AIR || action == Action.LEFT_CLICK_BLOCK){
-            hotbarManager.interactItems(item, player, plugin);
+            hotbarManager.interactItems(item, player);
         }
     }
 
@@ -67,12 +61,12 @@ public class HotbarListener implements Listener {
 
         if (item == null) return;
         String inventoryName = event.getView().getTitle();
-        if (event.getClickedInventory().equals(player.getInventory())) {
+        if (Objects.equals(event.getClickedInventory(), player.getInventory())) {
             inventoryName = "player";
         }
         event.setCancelled(true);
 
-        hotbarManager.itemClick(inventoryName, item, player, plugin);
+        hotbarManager.itemClick(inventoryName, item, player);
         player.setItemOnCursor(null);
     }
 
