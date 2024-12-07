@@ -13,9 +13,9 @@ public class InteractionsManager {
     public static void interactWithPlayer(Player player, Player target) {
         Inventory inventory = Bukkit.createInventory(null, 54, target.getName());
 
-        ItemStack targetHead = new ItemStack(Material.PLAYER_HEAD);
+        ItemStack targetHead = new ItemStack(Material.SKULL_ITEM, 1, (short) 3);
         SkullMeta metaTargetHead = (SkullMeta) targetHead.getItemMeta();
-        metaTargetHead.setOwnerProfile(target.getPlayerProfile());
+        metaTargetHead.setOwner(target.getName());
         metaTargetHead.setDisplayName(ChatColor.GOLD + target.getName());
         targetHead.setItemMeta(metaTargetHead);
 

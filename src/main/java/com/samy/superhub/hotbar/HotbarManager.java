@@ -1,6 +1,6 @@
 package com.samy.superhub.hotbar;
 
-import com.samy.superhub.SuperHubPlugin;
+
 import com.samy.superhub.hotbar.hide.DyeManager;
 import com.samy.superhub.hotbar.hide.HidePlayersManager;
 import com.samy.superhub.hotbar.compass.CompassManager;
@@ -19,11 +19,11 @@ public class HotbarManager {
     public ProfilManager profilManager;
     public DyeManager dyeManager;
 
-    public HotbarManager(Map<UUID, List<UUID>> friends, SuperHubPlugin plugin){
+    public HotbarManager(Map<UUID, List<UUID>> friends){
         this.compassManager = new CompassManager();
         this.shopManager = new ShopManager();
         this.profilManager = new ProfilManager();
-        this.dyeManager = new DyeManager(new HidePlayersManager(friends), plugin);
+        this.dyeManager = new DyeManager(new HidePlayersManager(friends));
     }
 
     public HashMap<ItemStack, Integer> createItemsInInventory(Player player){
@@ -49,9 +49,9 @@ public class HotbarManager {
             player.openInventory(compassManager.createInventory());
         } else if (item.getType() == Material.GOLD_INGOT){
             player.openInventory(shopManager.createInventory());
-        } else if (item.getType() == Material.PLAYER_HEAD){
+        } else if (item.getType() == Material.SKULL_ITEM){
             player.openInventory(profilManager.createInventory(player));
-        } else if (item.getType() == Material.LIME_DYE || item.getType() == Material.PINK_DYE || item.getType() == Material.GRAY_DYE){
+        } else if (item.getType() == Material.INK_SACK){
             dyeManager.clickItem(player);
         }
     }

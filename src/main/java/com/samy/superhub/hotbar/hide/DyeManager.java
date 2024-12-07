@@ -1,6 +1,5 @@
 package com.samy.superhub.hotbar.hide;
 
-import com.samy.superhub.SuperHubPlugin;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -20,12 +19,10 @@ public class DyeManager {
     );
     public List<ItemStack> dyeItems = Arrays.asList(getGreenDye(), getPinkDye(), getGrayDye());
     public HidePlayersManager hideManager;
-    public SuperHubPlugin plugin;
     public int state = 0; // 0 = showing, 1 = friends only, 2 = hiding
 
-    public DyeManager(HidePlayersManager hideManager, SuperHubPlugin plugin){
+    public DyeManager(HidePlayersManager hideManager){
         this.hideManager = hideManager;
-        this.plugin = plugin;
     }
 
     public ItemStack getCurrentDye(){
@@ -33,7 +30,7 @@ public class DyeManager {
     }
 
     private ItemStack getGreenDye() {
-        ItemStack showingPlayers = new ItemStack(Material.LIME_DYE);
+        ItemStack showingPlayers = new ItemStack(Material.INK_SACK, 1, (short) 10);
         ItemMeta metaPlayers = showingPlayers.getItemMeta();
         assert metaPlayers != null;
         metaPlayers.setDisplayName(ChatColor.GOLD + "Joueurs: " + ChatColor.GREEN + "visibles");
@@ -45,7 +42,7 @@ public class DyeManager {
     }
 
     private ItemStack getPinkDye(){
-        ItemStack friendsOnly = new ItemStack(Material.PINK_DYE);
+        ItemStack friendsOnly = new ItemStack(Material.INK_SACK, 1, (short) 9);
         ItemMeta metaFriendsOnly = friendsOnly.getItemMeta();
         assert metaFriendsOnly != null;
 
@@ -58,7 +55,7 @@ public class DyeManager {
     }
 
     private ItemStack getGrayDye(){
-        ItemStack hidingPlayers = new ItemStack(Material.GRAY_DYE);
+        ItemStack hidingPlayers = new ItemStack(Material.INK_SACK, 1, (short) 8);
         ItemMeta metaHidingPlayers = hidingPlayers.getItemMeta();
         assert metaHidingPlayers != null;
         metaHidingPlayers.setDisplayName(ChatColor.GOLD + "Joueurs: " + ChatColor.RED + "masqués");
@@ -86,17 +83,17 @@ public class DyeManager {
 
 
     private void hidePlayers(Player player) {
-        hideManager.hidePlayers(plugin, player);
+        hideManager.hidePlayers(player);
         state = 2;
     }
 
     private void showPlayers(Player player) {
-        hideManager.showPlayers(plugin, player);
+        hideManager.showPlayers(player);
         state = 0;
     }
 
     private void showFriends(Player player) {
-        hideManager.showFriends(plugin, player);
+        hideManager.showFriends(player);
         state = 1;
     }
 }

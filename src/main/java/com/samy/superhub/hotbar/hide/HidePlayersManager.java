@@ -1,6 +1,6 @@
 package com.samy.superhub.hotbar.hide;
 
-import com.samy.superhub.SuperHubPlugin;
+
 import org.bukkit.entity.Player;
 
 import java.util.List;
@@ -15,29 +15,29 @@ public class HidePlayersManager {
         this.friendsMap = friendsMap;
     }
 
-    public void hidePlayers(SuperHubPlugin plugin, Player player) {
+    public void hidePlayers(Player player) {
         for (Player p : player.getWorld().getPlayers()) {
-            player.hidePlayer(plugin, p);
+            player.hidePlayer(p);
         }
     }
 
-    public void showPlayers(SuperHubPlugin plugin, Player player) {
+    public void showPlayers(Player player) {
         for (Player p : player.getWorld().getPlayers()) {
-            player.showPlayer(plugin, p);
+            player.showPlayer(p);
         }
     }
 
-    public void showFriends(SuperHubPlugin plugin, Player player) {
+    public void showFriends(Player player) {
         List<UUID> friends = friendsMap.get(player.getUniqueId());
         if (friends == null) {
-            hidePlayers(plugin, player);
+            hidePlayers(player);
             return;
         }
         for (Player p : player.getWorld().getPlayers()) {
             if (friends.contains(p.getUniqueId())) {
-                player.showPlayer(plugin, p);
+                player.showPlayer(p);
             } else {
-                player.hidePlayer(plugin, p);
+                player.hidePlayer(p);
             }
         }
     }

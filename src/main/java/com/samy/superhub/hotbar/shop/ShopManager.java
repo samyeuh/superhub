@@ -8,7 +8,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.List;
+import java.util.Arrays;
 
 public class ShopManager {
 
@@ -17,7 +17,7 @@ public class ShopManager {
         ItemMeta metaShop = shopItem.getItemMeta();
         assert metaShop != null;
         metaShop.setDisplayName(ChatColor.GOLD + "Boutique");
-        metaShop.setLore(List.of(ChatColor.GRAY + "c trop bien ici tkt"));
+        metaShop.setLore(Arrays.asList(ChatColor.GRAY + "c trop bien ici tkt"));
         shopItem.setItemMeta(metaShop);
         return shopItem;
     }
@@ -28,7 +28,7 @@ public class ShopManager {
         ItemMeta metaVip = vip.getItemMeta();
         assert metaVip != null;
         metaVip.setDisplayName(ChatColor.AQUA + "VIP");
-        metaVip.setLore(List.of(ChatColor.GRAY + "pour les riches"));
+        metaVip.setLore(Arrays.asList(ChatColor.GRAY + "pour les riches"));
         vip.setItemMeta(metaVip);
 
         inv.setItem(13, vip);

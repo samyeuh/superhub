@@ -10,7 +10,8 @@ public class InteractionsListener implements Listener {
     @EventHandler
     public void onInteractPlayer(PlayerInteractEntityEvent event){
         Player player = event.getPlayer();
-        if (event.getRightClicked() instanceof Player target){
+        if (event.getRightClicked() instanceof Player){
+            Player target = (Player) event.getRightClicked();
             InteractionsManager.interactWithPlayer(player, target);
         } else {
             event.setCancelled(true);

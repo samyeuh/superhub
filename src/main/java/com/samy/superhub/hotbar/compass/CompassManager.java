@@ -7,7 +7,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import java.util.List;
+
+import java.util.Arrays;
 
 public class CompassManager {
 
@@ -17,7 +18,6 @@ public class CompassManager {
         assert metaPlay != null;
 
         metaPlay.setDisplayName(ChatColor.GOLD + "Jouer");
-        metaPlay.setLore(List.of(ChatColor.GRAY + "pas peur de kiffer"));
         playItem.setItemMeta(metaPlay);
 
         return playItem;
@@ -26,12 +26,12 @@ public class CompassManager {
     public Inventory createInventory(){
 
         Inventory inv = Bukkit.createInventory(null, 54, "Jeux");
-        ItemStack rush = new ItemStack(Material.BLUE_BED);
+        ItemStack rush = new ItemStack(Material.BED);
         ItemMeta metaRush = rush.getItemMeta();
         assert metaRush != null;
 
         metaRush.setDisplayName(ChatColor.BLUE + "Rush");
-        metaRush.setLore(List.of(ChatColor.GRAY + "bon jeu"));
+        metaRush.setLore(Arrays.asList(ChatColor.GRAY + "bon jeu"));
         rush.setItemMeta(metaRush);
         inv.setItem(13, rush);
 
@@ -39,7 +39,7 @@ public class CompassManager {
     }
 
     public void clickItem(ItemStack item, Player player){
-        if (item.getType() == Material.BLUE_BED){
+        if (item.getType() == Material.BED){
             player.sendMessage(ChatColor.GOLD + "Tu viens de rejoindre le" + ChatColor.BLUE + " Rush" + ChatColor.GOLD + " !");
             player.closeInventory();
         }

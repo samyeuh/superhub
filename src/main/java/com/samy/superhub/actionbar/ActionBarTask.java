@@ -1,17 +1,16 @@
 package com.samy.superhub.actionbar;
 
-import net.md_5.bungee.api.ChatMessageType;
-import net.md_5.bungee.api.chat.TextComponent;
+import net.minecraft.server.v1_8_R3.ChatComponentText;
+import net.minecraft.server.v1_8_R3.IChatBaseComponent;
+import net.minecraft.server.v1_8_R3.PacketPlayOutChat;
 import org.bukkit.ChatColor;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.scheduler.BukkitScheduler;
-import org.bukkit.scheduler.BukkitTask;
+
 
 import java.util.List;
-import java.util.Locale;
 import java.util.Random;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class ActionBarTask extends BukkitRunnable {
 
@@ -31,8 +30,8 @@ public class ActionBarTask extends BukkitRunnable {
     public void run() {
         String message;
         do {
-            int index = random.nextInt(1, messages.size() +1);
-            message = messages.get(random.nextInt(index));
+            int index = random.nextInt(messages.size());
+            message = messages.get(index);
         }while(message.equals(lastMessage));
 
         lastMessage = message;
@@ -41,7 +40,10 @@ public class ActionBarTask extends BukkitRunnable {
     }
 
     private void printMessageToPlayer(String msg){
-        player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(msg));
+        IChatBaseComponent chatComponent = new ChatComponentText(msg);
+        // Créer le paquet pour la barre d'action (type 2 = ActionBar)
+        PacketPlayOutChat packet = new PacketPlayOutChat(chatComponent, (byte) 2);
+        ((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
     }
 
     private String replacePlaceholders(String message) {

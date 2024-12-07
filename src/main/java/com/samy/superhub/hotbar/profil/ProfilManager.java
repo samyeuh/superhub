@@ -8,19 +8,15 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
-import org.bukkit.profile.PlayerProfile;
-
-import java.util.List;
 
 public class ProfilManager {
 
     public ItemStack getProfilItem(Player player){
-        ItemStack profilItem = new ItemStack(Material.PLAYER_HEAD);
+        ItemStack profilItem = new ItemStack(Material.SKULL_ITEM, 1, (short) 3);
         SkullMeta metaProfil = (SkullMeta) profilItem.getItemMeta();
         assert metaProfil != null;
-        metaProfil.setOwnerProfile(player.getPlayerProfile());
+        metaProfil.setOwner(player.getName());
         metaProfil.setDisplayName(ChatColor.GOLD + player.getName());
-        metaProfil.setLore(List.of(ChatColor.GRAY + "ton profil de gros bg"));
         profilItem.setItemMeta(metaProfil);
         return profilItem;
     }
@@ -28,16 +24,14 @@ public class ProfilManager {
     public Inventory createInventory(Player player){
         Inventory inv = Bukkit.createInventory(null, 54, player.getName());
 
-        ItemStack playerHead = new ItemStack(Material.PLAYER_HEAD);
+        ItemStack playerHead = new ItemStack(Material.SKULL_ITEM, 1, (short) 3);
         SkullMeta metaPlayerHead = (SkullMeta) playerHead.getItemMeta();
-        PlayerProfile profile = player.getPlayerProfile();
         assert metaPlayerHead != null;
-        metaPlayerHead.setOwnerProfile(profile);
+        metaPlayerHead.setOwner(player.getName());
         metaPlayerHead.setDisplayName(ChatColor.GOLD + player.getName());
-        metaPlayerHead.setLore(List.of(ChatColor.GRAY + "ton profil de gros bg"));
         playerHead.setItemMeta(metaPlayerHead);
 
-        ItemStack blueGlass = new ItemStack(Material.LIGHT_BLUE_STAINED_GLASS_PANE);
+        ItemStack blueGlass = new ItemStack(Material.STAINED_GLASS_PANE);
         ItemMeta glassMeta = blueGlass.getItemMeta();
         assert glassMeta != null;
         glassMeta.setDisplayName(ChatColor.BLACK + ".");
@@ -52,7 +46,7 @@ public class ProfilManager {
     }
 
     public void clickItem(ItemStack item, Player player){
-        if (item.getType() == Material.LIGHT_BLUE_STAINED_GLASS_PANE){
+        if (item.getType() == Material.STAINED_GLASS_PANE){
             return;
         }
         player.sendMessage(ChatColor.GOLD + "Tu viens de cliquer sur ton profil !");

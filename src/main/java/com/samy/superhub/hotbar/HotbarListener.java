@@ -20,7 +20,7 @@ public class HotbarListener implements Listener {
 
     public HotbarListener(SuperHubPlugin plugin, Map<UUID, List<UUID>> friendsMap) {
         this.plugin = plugin;
-        this.hotbarManager = new HotbarManager(friendsMap, plugin);
+        this.hotbarManager = new HotbarManager(friendsMap);
     }
 
 
@@ -29,7 +29,7 @@ public class HotbarListener implements Listener {
 
         Player player = event.getPlayer();
 
-        Location spawn = new Location(player.getWorld(), 10.5, -58, 8.5, 177f, 0.0f);
+        Location spawn = new Location(player.getWorld(), 193.5, 5, 970.5, 180f, 0.0f);
         player.teleport(spawn);
 
         player.getInventory().clear();
@@ -75,8 +75,8 @@ public class HotbarListener implements Listener {
         event.setCancelled(true);
     }
 
-    @EventHandler
-    public void onSwapHandItems(PlayerSwapHandItemsEvent event){
-        event.setCancelled(true);
-    }
+//    @EventHandler
+//    public void onSwapHandItems(PlayerSwapHandItemsEvent event){
+//        event.setCancelled(true);
+//    }
 }
