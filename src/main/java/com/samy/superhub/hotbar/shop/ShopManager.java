@@ -17,7 +17,6 @@ public class ShopManager {
         ItemMeta metaShop = shopItem.getItemMeta();
         assert metaShop != null;
         metaShop.setDisplayName(ChatColor.GOLD + "Boutique");
-        metaShop.setLore(Arrays.asList(ChatColor.GRAY + "c trop bien ici tkt"));
         shopItem.setItemMeta(metaShop);
         return shopItem;
     }
