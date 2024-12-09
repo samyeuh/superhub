@@ -5,11 +5,10 @@ import com.samy.superhub.chat.ChatListener;
 import com.samy.superhub.hotbar.HotbarListener;
 import com.samy.superhub.interactions.InteractionsListener;
 import com.samy.superhub.spawn.SpawnCommand;
+import com.samy.superhub.spawn.SpawnListener;
 import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Map;
@@ -45,6 +44,7 @@ public class SuperHubPlugin extends JavaPlugin {
 
     private void enableSpawn(){
         getCommand("spawn").setExecutor(new SpawnCommand());
+        getServer().getPluginManager().registerEvents(new SpawnListener(), this);
     }
 
     private void enableHotBar(){
