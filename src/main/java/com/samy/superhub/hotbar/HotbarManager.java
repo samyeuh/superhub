@@ -21,9 +21,10 @@ public class HotbarManager {
 
     public HotbarManager(Map<UUID, List<UUID>> friends){
         this.compassManager = new CompassManager();
-        this.shopManager = new ShopManager();
-        this.profilManager = new ProfilManager();
+//        this.shopManager = new ShopManager();
+//        this.profilManager = new ProfilManager();
         this.dyeManager = new DyeManager(new HidePlayersManager(friends));
+        //TODO: minecraft for season pass, level of pass in xp bar
     }
 
     public HashMap<ItemStack, Integer> createItemsInInventory(Player player){
@@ -32,11 +33,11 @@ public class HotbarManager {
         ItemStack playItem = compassManager.getPlayItem();
         items.put(playItem, 0);
 
-        ItemStack shopItem = shopManager.getShopItem();
-        items.put(shopItem, 1);
-
-        ItemStack profilItem = profilManager.getProfilItem(player);
-        items.put(profilItem, 7);
+//        ItemStack shopItem = shopManager.getShopItem();
+//        items.put(shopItem, 1);
+//
+//        ItemStack profilItem = profilManager.getProfilItem(player);
+//        items.put(profilItem, 7);
 
         ItemStack showingPlayers = dyeManager.getCurrentDye();
         items.put(showingPlayers, 8);
@@ -47,11 +48,11 @@ public class HotbarManager {
     public void interactItems(ItemStack item, Player player){
         if (item.getType() == Material.COMPASS){
             player.openInventory(compassManager.createInventory());
-        } else if (item.getType() == Material.GOLD_INGOT){
-            player.openInventory(shopManager.createInventory());
-        } else if (item.getType() == Material.SKULL_ITEM){
-            player.openInventory(profilManager.createInventory(player));
-        } else if (item.getType() == Material.INK_SACK){
+//        } else if (item.getType() == Material.GOLD_INGOT){
+//            player.openInventory(shopManager.createInventory());
+//        } else if (item.getType() == Material.SKULL_ITEM){
+//            player.openInventory(profilManager.createInventory(player));
+          } else if (item.getType() == Material.INK_SACK){
             dyeManager.clickItem(player);
         }
     }
@@ -60,10 +61,10 @@ public class HotbarManager {
         String pseudo = player.getName();
         if (title.equals("Jeux")){
             compassManager.clickItem(item, player);
-        } else if (title.equals("Shop")){
-            shopManager.clickItem(item, player);
-        } else if (title.equals(pseudo)){
-            profilManager.clickItem(item, player);
+//        } else if (title.equals("Shop")){
+//            shopManager.clickItem(item, player);
+//        } else if (title.equals(pseudo)){
+//            profilManager.clickItem(item, player);
         } else if (title.equals("player")){
             interactItems(item, player);
         }
