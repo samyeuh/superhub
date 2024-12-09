@@ -19,7 +19,7 @@ public class InteractionsManager {
         metaTargetHead.setDisplayName(ChatColor.GOLD + target.getName());
         targetHead.setItemMeta(metaTargetHead);
 
-        inventory.setItem(5, targetHead);
+        inventory.setItem(4, targetHead);
 
         player.openInventory(inventory);
     }
