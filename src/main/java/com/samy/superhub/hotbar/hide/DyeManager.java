@@ -13,9 +13,15 @@ import java.util.List;
 public class DyeManager {
 
     public List<String> dyeLore = Arrays.asList(
-            ChatColor.WHITE + "Tous les joueurs sont " + ChatColor.GREEN + "affichés",
-            ChatColor.WHITE + "Uniquement les joueurs avec qui vous êtes " + ChatColor.LIGHT_PURPLE + "amis" + ChatColor.WHITE + " sont " + ChatColor.GREEN + "affichés",
-            ChatColor.WHITE + "Tous les joueurs sont " + ChatColor.RED + " masqués"
+            ChatColor.GRAY + "" + ChatColor.ITALIC + "Tous les joueurs sont affichés",
+            ChatColor.GRAY + "" + ChatColor.ITALIC + "Uniquement les joueurs avec qui vous êtes amis sont affichés",
+            ChatColor.GRAY + "" + ChatColor.ITALIC + "Tous les joueurs sont masqués"
+    );
+
+    public List<String> dyeLoreSelected = Arrays.asList(
+            ChatColor.GREEN + "> " + ChatColor.BOLD + "Tous les joueurs sont affichés",
+            ChatColor.LIGHT_PURPLE + "> " + ChatColor.BOLD + "Uniquement les joueurs avec qui vous êtes amis sont affichés",
+            ChatColor.RED + "> " + ChatColor.BOLD + "Tous les joueurs sont masqués"
     );
     public List<ItemStack> dyeItems = Arrays.asList(getGreenDye(), getPinkDye(), getGrayDye());
     public HidePlayersManager hideManager;
@@ -33,9 +39,10 @@ public class DyeManager {
         ItemStack showingPlayers = new ItemStack(Material.INK_SACK, 1, (short) 10);
         ItemMeta metaPlayers = showingPlayers.getItemMeta();
         assert metaPlayers != null;
-        metaPlayers.setDisplayName(ChatColor.GOLD + "Joueurs: " + ChatColor.GREEN + "visibles");
+        metaPlayers.setDisplayName(ChatColor.GREEN + "Joueurs visibles");
         List<String> dyeLoreCopy = new ArrayList<>(dyeLore);
-        dyeLoreCopy.set(0, " > " + ChatColor.BOLD + dyeLoreCopy.get(0));
+        List<String> dyeLoreSelectedCopy = new ArrayList<>(dyeLoreSelected);
+        dyeLoreCopy.set(0, dyeLoreSelectedCopy.get(0));
         metaPlayers.setLore(dyeLoreCopy);
         showingPlayers.setItemMeta(metaPlayers);
         return showingPlayers;
@@ -46,9 +53,10 @@ public class DyeManager {
         ItemMeta metaFriendsOnly = friendsOnly.getItemMeta();
         assert metaFriendsOnly != null;
 
-        metaFriendsOnly.setDisplayName(ChatColor.GOLD + "Joueurs: " + ChatColor.LIGHT_PURPLE + "amis uniquement");
+        metaFriendsOnly.setDisplayName(ChatColor.LIGHT_PURPLE + "Amis uniquement");
         List<String> dyeLoreCopy = new ArrayList<>(dyeLore);
-        dyeLoreCopy.set(1, " > " + ChatColor.BOLD + dyeLoreCopy.get(1));
+        List<String> dyeLoreSelectedCopy = new ArrayList<>(dyeLoreSelected);
+        dyeLoreCopy.set(1, dyeLoreSelectedCopy.get(1));
         metaFriendsOnly.setLore(dyeLoreCopy);
         friendsOnly.setItemMeta(metaFriendsOnly);
         return friendsOnly;
@@ -58,9 +66,10 @@ public class DyeManager {
         ItemStack hidingPlayers = new ItemStack(Material.INK_SACK, 1, (short) 8);
         ItemMeta metaHidingPlayers = hidingPlayers.getItemMeta();
         assert metaHidingPlayers != null;
-        metaHidingPlayers.setDisplayName(ChatColor.GOLD + "Joueurs: " + ChatColor.RED + "masqués");
+        metaHidingPlayers.setDisplayName(ChatColor.RED + "Joueurs masqués");
         List<String> dyeLoreCopy = new ArrayList<>(dyeLore);
-        dyeLoreCopy.set(2, " > " + ChatColor.BOLD + dyeLoreCopy.get(2));
+        List<String> dyeLoreSelectedCopy = new ArrayList<>(dyeLoreSelected);
+        dyeLoreCopy.set(2, dyeLoreSelectedCopy.get(2));
         metaHidingPlayers.setLore(dyeLoreCopy);
         hidingPlayers.setItemMeta(metaHidingPlayers);
         return hidingPlayers;
