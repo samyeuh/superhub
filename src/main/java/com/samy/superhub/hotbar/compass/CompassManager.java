@@ -25,7 +25,7 @@ public class CompassManager {
 
     public Inventory createInventory(){
 
-        Inventory inv = Bukkit.createInventory(null, 54, "Jeux");
+        Inventory inv = Bukkit.createInventory(null, 27, "Jeux");
         ItemStack rush = new ItemStack(Material.BED);
         ItemMeta metaRush = rush.getItemMeta();
         assert metaRush != null;
