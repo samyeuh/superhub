@@ -2,7 +2,6 @@ package com.samy.superhub.hotbar;
 
 import com.samy.superhub.SuperHubPlugin;
 import org.bukkit.ChatColor;
-import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -26,12 +25,7 @@ public class HotbarListener implements Listener {
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
-
         Player player = event.getPlayer();
-
-        Location spawn = new Location(player.getWorld(), 193.5, 5, 970.5, 180f, 0.0f);
-        player.teleport(spawn);
-
         player.getInventory().clear();
         player.getInventory().setHeldItemSlot(5);
         HashMap<ItemStack, Integer> items = hotbarManager.createItemsInInventory(player);
