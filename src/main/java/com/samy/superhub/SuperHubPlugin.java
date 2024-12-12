@@ -5,6 +5,7 @@ import com.samy.superhub.actionbar.ActionBarListener;
 import com.samy.superhub.chat.ChatListener;
 import com.samy.superhub.hotbar.HotbarListener;
 import com.samy.superhub.interactions.InteractionsListener;
+import com.samy.superhub.scoreboard.ScoreboardListener;
 import com.samy.superhub.spawn.SpawnCommand;
 import com.samy.superhub.spawn.SpawnListener;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -33,6 +34,7 @@ public class SuperHubPlugin extends JavaPlugin {
         enableChat();
         enableInteractions();
         enableRankTab();
+        enableScoreboard();
 
         getLogger().info("SuperHubPlugin est activé !");
     }
@@ -66,6 +68,10 @@ public class SuperHubPlugin extends JavaPlugin {
 
     private void enableRankTab(){
         corePlugin.createRankTab();
+    }
+
+    private void enableScoreboard(){
+        getServer().getPluginManager().registerEvents(new ScoreboardListener(corePlugin), this);
     }
 
     public void refreshFriends() {
