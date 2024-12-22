@@ -16,24 +16,19 @@ import java.util.UUID;
 
 public class SuperHubPlugin extends JavaPlugin {
 
-    private SuperAPI corePlugin;
+    private SuperAPI api;
     private Map<UUID, List<UUID>> friends;
 
     @Override
     public void onEnable() {
-        corePlugin = (SuperAPI) getServer().getPluginManager().getPlugin("SuperServeurPlugin");
-        if(corePlugin == null){
-            getLogger().info("SuperServeur n'est pas activé !");
-        } else {
-            getLogger().info("SuperServeur est activé !");
-        }
+        api = SuperAPI.getInstance();
 
         enableSpawn();
         enableHotBar();
         enableActionBar();
         enableChat();
         enableInteractions();
-        enableRankTab();
+       // enableRankTab();
         enableScoreboard();
 
         getLogger().info("SuperHubPlugin est activé !");
@@ -66,15 +61,15 @@ public class SuperHubPlugin extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new InteractionsListener(), this);
     }
 
-    private void enableRankTab(){
-        corePlugin.createRankTab();
-    }
+//    private void enableRankTab(){
+//        api.createRankTab();
+//    }
 
     private void enableScoreboard(){
-        getServer().getPluginManager().registerEvents(new ScoreboardListener(corePlugin), this);
+        getServer().getPluginManager().registerEvents(new ScoreboardListener(api.getScoreboardManager()), this);
     }
 
     public void refreshFriends() {
-        friends = corePlugin.getFriends();
+        friends = api.getFriendsManager().getFriendsMap();
     }
 }

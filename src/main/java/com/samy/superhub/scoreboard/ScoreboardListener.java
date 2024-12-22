@@ -1,6 +1,7 @@
 package com.samy.superhub.scoreboard;
 
-import com.samy.api.SuperAPI;
+
+import com.samy.api.scoreboard.IScoreboardManager;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -11,10 +12,10 @@ import java.util.List;
 
 public class ScoreboardListener implements Listener {
 
-    public SuperAPI superAPI;
+    public IScoreboardManager scoreboardManager;
 
-    public ScoreboardListener(SuperAPI superAPI){
-        this.superAPI = superAPI;
+    public ScoreboardListener(IScoreboardManager scoreboardManager){
+        this.scoreboardManager = scoreboardManager;
     }
 
     @EventHandler
@@ -25,6 +26,6 @@ public class ScoreboardListener implements Listener {
                 "coins",
                 "connectedPlayers"
         );
-        superAPI.setScoreboard("Super serveur de Samy", lines, p);
+        scoreboardManager.setScoreboard(p,"Super serveur de Samy", lines);
     }
 }
