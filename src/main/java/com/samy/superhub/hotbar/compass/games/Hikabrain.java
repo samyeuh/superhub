@@ -8,7 +8,9 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class Hikabrain extends AbstractGame {
 
@@ -26,7 +28,17 @@ public class Hikabrain extends AbstractGame {
 
     @Override
     public ItemStack getItem() {
-        return new ItemStack(Material.BED, 1);
+        ItemStack item = new ItemStack(Material.SANDSTONE, 1, (short) 2);
+        ItemMeta meta = item.getItemMeta();
+        assert meta != null;
+        meta.setDisplayName("Hikabrain");
+        List<String> lore = new ArrayList<>();
+        lore.add("Battez vous sur un pont et");
+        lore.add("marquez des points en allant");
+        lore.add("sur le lit de vos adversaires !");
+        meta.setLore(lore);
+        item.setItemMeta(meta);
+        return item;
     }
 
     @Override
