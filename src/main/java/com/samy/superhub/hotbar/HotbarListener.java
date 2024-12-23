@@ -28,7 +28,7 @@ public class HotbarListener implements Listener {
         Player player = event.getPlayer();
         player.getInventory().clear();
         player.getInventory().setHeldItemSlot(5);
-        HashMap<ItemStack, Integer> items = hotbarManager.createItemsInInventory(player);
+        HashMap<ItemStack, Integer> items = hotbarManager.createItemsInInventory();
         items.forEach((item, slot) -> player.getInventory().setItem(slot, item));
         player.getInventory().setHeldItemSlot(4);
         player.sendMessage(ChatColor.GREEN + "Bienvenue sur le serveur !");

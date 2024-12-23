@@ -8,9 +8,13 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.Arrays;
-
 public class CompassManager {
+
+    public final GameManager gameManager;
+
+    public CompassManager(){
+        this.gameManager = new GameManager();
+    }
 
     public ItemStack getPlayItem() {
         ItemStack playItem = new ItemStack(Material.COMPASS);
@@ -26,22 +30,18 @@ public class CompassManager {
     public Inventory createInventory(){
 
         Inventory inv = Bukkit.createInventory(null, 27, "Jeux");
-        ItemStack rush = new ItemStack(Material.BED);
-        ItemMeta metaRush = rush.getItemMeta();
-        assert metaRush != null;
-
-        metaRush.setDisplayName(ChatColor.BLUE + "Rush");
-        metaRush.setLore(Arrays.asList(ChatColor.GRAY + "bon jeu"));
-        rush.setItemMeta(metaRush);
-        inv.setItem(13, rush);
-
+        gameManager.getGamesInCompass().forEach((game, slot) -> inv.setItem(slot, game.getItem()));
         return inv;
     }
 
     public void clickItem(ItemStack item, Player player){
-        if (item.getType() == Material.BED){
-            player.sendMessage(ChatColor.GOLD + "Tu viens de rejoindre le" + ChatColor.BLUE + " Rush" + ChatColor.GOLD + " !");
-            player.closeInventory();
+        for (AbstractGame game : gameManager.getGamesInCompass().keySet()){
+            if (game.getItem().equals(item)) {
+                player.openInventory(game.seeGameInventory());
+            } else if (game.getGames().containsKey(item)){
+                game.clickItem(item, player);
+                player.closeInventory();
+            }
         }
     }
 }
