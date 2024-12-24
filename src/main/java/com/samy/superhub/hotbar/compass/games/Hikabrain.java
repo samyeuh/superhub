@@ -1,5 +1,6 @@
 package com.samy.superhub.hotbar.compass.games;
 
+import com.samy.api.SuperAPI;
 import com.samy.superhub.hotbar.compass.AbstractGame;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -15,6 +16,11 @@ import java.util.List;
 public class Hikabrain extends AbstractGame {
 
     HashMap<ItemStack, String> games = new HashMap<>();
+    private final SuperAPI api;
+
+    public Hikabrain() {
+        api = SuperAPI.getInstance();
+    }
 
     @Override
     public String getGameId() {
@@ -70,7 +76,7 @@ public class Hikabrain extends AbstractGame {
     @Override
     public void clickItem(ItemStack item, Player player) {
         if (games.containsKey(item)){
-            player.sendMessage("Tu rejoins la file d'attente du jeu " + games.get(item) + " !");
+            api.getQueueManager().addPlayer(player, games.get(item));
         }
     }
 
