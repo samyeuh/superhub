@@ -1,0 +1,11 @@
+{
+  "title": "Super serveur de Samy",
+  "footer": "§6samy.fr",
+  "lines": [
+    "§7 ",
+    "§lConnectés: §a%online_players%",
+    "§7",
+    "§e§l > %player_name%",
+    "§lCoins: §6%coins%"
+  ]
+}

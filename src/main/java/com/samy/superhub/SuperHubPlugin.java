@@ -5,6 +5,7 @@ import com.samy.superhub.actionbar.ActionBarListener;
 import com.samy.superhub.chat.ChatListener;
 import com.samy.superhub.hotbar.HotbarListener;
 import com.samy.superhub.interactions.InteractionsListener;
+import com.samy.superhub.scoreboard.HubScoreboardManager;
 import com.samy.superhub.scoreboard.ScoreboardListener;
 import com.samy.superhub.spawn.SpawnCommand;
 import com.samy.superhub.spawn.SpawnListener;
@@ -66,7 +67,8 @@ public class SuperHubPlugin extends JavaPlugin {
 //    }
 
     private void enableScoreboard(){
-        getServer().getPluginManager().registerEvents(new ScoreboardListener(api.getScoreboardManager()), this);
+        HubScoreboardManager hubScoreboardManager = new HubScoreboardManager(api.getScoreboardManager());
+        getServer().getPluginManager().registerEvents(new ScoreboardListener(hubScoreboardManager), this);
     }
 
     public void refreshFriends() {
